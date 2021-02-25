@@ -21,8 +21,7 @@ par(mar=c(1,1,1,1)) # Margins
 options(scipen=999)
 
 ## Before starting
-setwd("C:/Users/Thijs/surfdrive/Project A - Accountability landscape/Data/QUANTitative datasets/Complete datasets/Documentation unobtrustive/Independence/Independence - git") # Working directory
-
+setwd("C:/Users/Thijs/surfdrive/Project A - Accountability landscape/Data/QUANTitative datasets/Complete datasets/Documentation unobtrustive/Independence")
 ## Data
 data <- read_excel("independence - complete -221220.xlsx", na = "99")
 data <- data %>% mutate_if(is.numeric, as.factor)
@@ -216,4 +215,4 @@ tt3 <- ttheme_default(core = list(fg_params = list(hjust = 0, x = 0.1)),
 
 grid.table(l1.plot,  theme = tt3)
 grid.table(l2.plot,  theme = tt3)
-grid.table(gamma.plot,  theme = tt3) # Plot? -> Koop & Hanretty
+grid.table(gamma.plot,  theme = tt3) 
