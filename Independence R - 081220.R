@@ -22,15 +22,26 @@ options(scipen=999)
 
 ## Before starting
 setwd("C:/Users/Thijs/surfdrive/Project A - Accountability landscape/Data/QUANTitative datasets/Complete datasets/Documentation unobtrustive/Independence")
+
 ## Data
-data <- read_excel("independence - complete -221220.xlsx", na = "99")
+data <- read_excel("independence - complete - adjusted - 25022021.xlsx", na = "99")
 data <- data %>% mutate_if(is.numeric, as.factor)
 data <- data %>%  column_to_rownames(var = "agency")
 
+# Check distribution
+counts <- data %>% 
+  lapply(table) %>% 
+  lapply(as.data.frame)
+
+counts %>%
+  print()
+
 ## Correlation plot
-cor <- hetcor(data[c(1:8,11:17, 19)], use = "pairwise.complete.obs")
+cor <- hetcor(data, use = "pairwise.complete.obs")
 cor$correlations <- format(cor$correlations, digits = 1)
 grid.table(cor$correlations)
+
+
 
 ## Chain 
 post.samp <- MCMCordfactanal(~ ah.term + ah.selection + ah.quorum + ah.dismissal +
@@ -215,6 +226,3 @@ tt3 <- ttheme_default(core = list(fg_params = list(hjust = 0, x = 0.1)),
 grid.table(l1.plot,  theme = tt3)
 grid.table(l2.plot,  theme = tt3)
 grid.table(gamma.plot,  theme = tt3) 
-
-library(usethis)
-use_github(protocol = 'https', auth_token = Sys.getenv("GITHUB_PAT"))
