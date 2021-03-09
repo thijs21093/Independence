@@ -4,5 +4,5 @@
 .Ruserdata
 *.docx
 *.pdf
-*.xlsx
 *.RDataTmp
+*.png
