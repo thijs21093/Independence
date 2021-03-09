@@ -1,0 +1,160 @@
+                                                          
+                            Stationarity start     p-value
+                            test         iteration        
+Lambdaah.selection.1        passed           1     0.6907 
+Lambdaah.selection.2        passed           1     0.3783 
+Lambdaah.term.1             passed           1     0.7948 
+Lambdaah.term.2             passed           1     0.9112 
+Lambdaah.quorum.1           passed           1     0.5254 
+Lambdaah.quorum.2           passed           1     0.5901 
+Lambdaah.dismissal.1        passed           1     0.9308 
+Lambdaah.dismissal.2        passed           1     0.7265 
+Lambdaah.independence.1     passed           1     0.2663 
+Lambdaah.independence.2     passed           1     0.9885 
+Lambdaah.reappointment.1    passed           1     0.6566 
+Lambdaah.reappointment.2    passed           1     0.6753 
+Lambdaah.requirement.1      passed           1     0.4083 
+Lambdaah.requirement.2      passed           1     0.5887 
+Lambdamb.fixed.1            passed       40001     0.0679 
+Lambdamb.fixed.2            passed           1     0.5938 
+Lambdamb.independence.1     passed           1     0.8883 
+Lambdamb.independence.2     passed           1     0.5799 
+Lambdamb.requirement.1      passed           1     0.6767 
+Lambdamb.requirement.2      passed           1     0.5343 
+Lambdaagency.independence.1 passed           1     0.2055 
+Lambdaagency.independence.2 passed           1     0.1905 
+Lambdaagency.report.1       passed           1     0.9620 
+Lambdaagency.report.2       passed           1     0.7195 
+Lambdaagency.program.1      passed           1     0.6836 
+Lambdaagency.program.2      passed       20001     0.1365 
+Lambdaagency.appeal.1       passed           1     0.8974 
+Lambdaagency.appeal.2       passed           1     0.3983 
+gamma2.ah.selection         passed           1     0.5667 
+gamma2.ah.term              passed           1     0.4676 
+gamma2.ah.quorum            passed           1     0.4108 
+gamma2.mb.requirement       passed           1     0.6742 
+phi.ACER.2                  passed           1     0.4300 
+phi.BBI JU.2                passed           1     0.7987 
+phi.BEREC OFFICE.2          passed           1     0.1849 
+phi.CdT.2                   passed           1     0.8610 
+phi.CEDEFOP.2               passed           1     0.7698 
+phi.CEPOL.2                 passed           1     0.8795 
+phi.CLEAN SKY JU.2          passed           1     0.5270 
+phi.CPVO.2                  passed           1     0.7790 
+phi.EASA.2                  passed           1     0.8605 
+phi.EASO.2                  passed           1     0.9710 
+phi.EBA.2                   passed           1     0.7519 
+phi.ECDC.2                  passed           1     0.3126 
+phi.ECHA.2                  passed       40001     0.0607 
+phi.ECSEL JU.2              passed           1     0.7530 
+phi.EDA.2                   passed           1     0.2867 
+phi.EEA.2                   passed           1     0.6049 
+phi.EFCA.2                  passed           1     0.7838 
+phi.EFSA.2                  passed           1     0.4151 
+phi.EIGE.2                  passed           1     0.1050 
+phi.EIOPA.2                 passed           1     0.4348 
+phi.EIT.2                   passed           1     0.9864 
+phi.EMA.2                   passed           1     0.9595 
+phi.EMCDDA.2                passed           1     0.7438 
+phi.EMSA.2                  passed           1     0.6069 
+phi.ENISA.2                 passed           1     0.6222 
+phi.ERA.2                   passed           1     0.8734 
+phi.ESMA.2                  passed           1     0.4754 
+phi.ETF.2                   passed           1     0.8348 
+phi.EU-LISA.2               passed           1     0.8779 
+phi.EU-OSHA.2               passed           1     0.8201 
+phi.EUIPO.2                 passed           1     0.5437 
+phi.EUISS.2                 passed           1     0.8064 
+phi.EUROFOUND.2             passed           1     0.8212 
+phi.EUROJUST.2              passed           1     0.9838 
+phi.EUROPOL.2               passed           1     0.9177 
+phi.F4E JU.2                passed           1     0.8819 
+phi.FCH 2 JU.2              passed           1     0.1924 
+phi.FRA.2                   passed           1     0.8362 
+phi.Frontex.2               passed           1     0.1977 
+phi.GSA.2                   passed           1     0.0999 
+phi.IMI JU.2                passed           1     0.8675 
+phi.S2R JU.2                passed           1     0.2875 
+phi.SatCen.2                passed           1     0.7512 
+phi.SESAR JU.2              passed           1     0.3045 
+phi.SRB.2                   passed           1     0.3498 
+                                                        
+                            Halfwidth Mean     Halfwidth
+                            test                        
+Lambdaah.selection.1        passed     1.45017 0.002165 
+Lambdaah.selection.2        passed     0.26803 0.001269 
+Lambdaah.term.1             passed     1.34180 0.003565 
+Lambdaah.term.2             passed     1.33934 0.004613 
+Lambdaah.quorum.1           passed     1.26553 0.002613 
+Lambdaah.quorum.2           passed     0.75435 0.002379 
+Lambdaah.dismissal.1        passed     1.24647 0.003073 
+Lambdaah.dismissal.2        passed     0.89879 0.004409 
+Lambdaah.independence.1     passed     0.80482 0.001402 
+Lambdaah.independence.2     passed     0.52584 0.002663 
+Lambdaah.reappointment.1    passed     1.34580 0.001651 
+Lambdaah.reappointment.2    passed     0.29825 0.002594 
+Lambdaah.requirement.1      passed    -0.23057 0.001437 
+Lambdaah.requirement.2      passed     0.85008 0.002310 
+Lambdamb.fixed.1            passed     0.27084 0.002486 
+Lambdamb.fixed.2            passed     1.42840 0.004824 
+Lambdamb.independence.1     passed    -0.71970 0.002333 
+Lambdamb.independence.2     passed     1.14466 0.004068 
+Lambdamb.requirement.1      passed     0.30117 0.001860 
+Lambdamb.requirement.2      passed     1.11981 0.004011 
+Lambdaagency.independence.1 passed    -0.43336 0.001836 
+Lambdaagency.independence.2 passed     1.01724 0.003420 
+Lambdaagency.report.1       passed     0.30053 0.000849 
+Lambdaagency.report.2       passed     0.03291 0.001473 
+Lambdaagency.program.1      passed     0.75215 0.000943 
+Lambdaagency.program.2      failed     0.00513 0.001424 
+Lambdaagency.appeal.1       passed    -0.96486 0.001863 
+Lambdaagency.appeal.2       passed     0.75495 0.002600 
+gamma2.ah.selection         passed     2.37256 0.003003 
+gamma2.ah.term              passed     0.56876 0.002132 
+gamma2.ah.quorum            passed     2.48273 0.004222 
+gamma2.mb.requirement       passed     0.46780 0.001398 
+phi.ACER.2                  passed     0.81134 0.003262 
+phi.BBI JU.2                passed    -1.25504 0.003639 
+phi.BEREC OFFICE.2          passed     0.60071 0.002838 
+phi.CdT.2                   passed    -0.60602 0.003383 
+phi.CEDEFOP.2               passed     0.47425 0.002581 
+phi.CEPOL.2                 passed    -0.04864 0.002440 
+phi.CLEAN SKY JU.2          passed    -1.25277 0.003725 
+phi.CPVO.2                  passed    -0.57401 0.003018 
+phi.EASA.2                  passed     0.92389 0.003021 
+phi.EASO.2                  passed     0.91694 0.003032 
+phi.EBA.2                   passed     1.85976 0.004145 
+phi.ECDC.2                  passed     0.08741 0.002422 
+phi.ECHA.2                  passed     0.94199 0.003334 
+phi.ECSEL JU.2              passed    -1.25467 0.003716 
+phi.EDA.2                   passed    -1.39234 0.003288 
+phi.EEA.2                   passed    -0.77125 0.003506 
+phi.EFCA.2                  passed     0.39596 0.002668 
+phi.EFSA.2                  passed     0.46387 0.003157 
+phi.EIGE.2                  passed     0.28147 0.002650 
+phi.EIOPA.2                 passed     1.86075 0.004166 
+phi.EIT.2                   passed     0.43600 0.002745 
+phi.EMA.2                   passed     0.57212 0.002740 
+phi.EMCDDA.2                passed    -0.69023 0.003204 
+phi.EMSA.2                  passed     0.18151 0.002840 
+phi.ENISA.2                 passed     0.43929 0.002549 
+phi.ERA.2                   passed     0.61011 0.002803 
+phi.ESMA.2                  passed     1.86227 0.004136 
+phi.ETF.2                   passed     0.47780 0.002354 
+phi.EU-LISA.2               passed     0.23874 0.002797 
+phi.EU-OSHA.2               passed     0.47451 0.002610 
+phi.EUIPO.2                 passed    -0.04746 0.002797 
+phi.EUISS.2                 passed    -0.96801 0.002781 
+phi.EUROFOUND.2             passed     0.47507 0.002548 
+phi.EUROJUST.2              passed    -0.47081 0.002569 
+phi.EUROPOL.2               passed    -0.16816 0.002459 
+phi.F4E JU.2                passed    -0.69085 0.003119 
+phi.FCH 2 JU.2              passed    -1.25666 0.003693 
+phi.FRA.2                   passed     1.06975 0.002969 
+phi.Frontex.2               passed     0.68403 0.002758 
+phi.GSA.2                   passed     0.38447 0.002590 
+phi.IMI JU.2                passed    -1.25587 0.003678 
+phi.S2R JU.2                passed    -0.25340 0.002600 
+phi.SatCen.2                passed    -1.12005 0.002992 
+phi.SESAR JU.2              passed    -0.05827 0.002791 
+phi.SRB.2                   passed     0.33781 0.003036 

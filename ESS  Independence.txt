@@ -1,0 +1,78 @@
+       Lambdaah.selection.1        Lambdaah.selection.2 
+                   63395.96                   118451.08 
+            Lambdaah.term.1             Lambdaah.term.2 
+                   43015.75                    36154.74 
+          Lambdaah.quorum.1           Lambdaah.quorum.2 
+                   49791.42                    55058.76 
+       Lambdaah.dismissal.1        Lambdaah.dismissal.2 
+                   47447.54                    35276.89 
+    Lambdaah.independence.1     Lambdaah.independence.2 
+                  111323.85                    56071.04 
+   Lambdaah.reappointment.1    Lambdaah.reappointment.2 
+                  108369.98                    66771.23 
+     Lambdaah.requirement.1      Lambdaah.requirement.2 
+                  106606.53                    81166.38 
+           Lambdamb.fixed.1            Lambdamb.fixed.2 
+                   72563.51                    39358.16 
+    Lambdamb.independence.1     Lambdamb.independence.2 
+                   67393.07                    45524.57 
+     Lambdamb.requirement.1      Lambdamb.requirement.2 
+                   79866.67                    39945.44 
+Lambdaagency.independence.1 Lambdaagency.independence.2 
+                   83577.18                    53410.48 
+      Lambdaagency.report.1       Lambdaagency.report.2 
+                  195319.12                    94755.08 
+     Lambdaagency.program.1      Lambdaagency.program.2 
+                  188995.37                   132697.78 
+      Lambdaagency.appeal.1       Lambdaagency.appeal.2 
+                   87164.74                    68926.19 
+        gamma2.ah.selection              gamma2.ah.term 
+                   48628.76                    53544.11 
+           gamma2.ah.quorum       gamma2.mb.requirement 
+                   36765.33                    70566.62 
+                 phi.ACER.2                phi.BBI JU.2 
+                   86958.75                    82308.44 
+         phi.BEREC OFFICE.2                   phi.CdT.2 
+                   97628.18                    72210.48 
+              phi.CEDEFOP.2                 phi.CEPOL.2 
+                  117914.38                   109049.58 
+         phi.CLEAN SKY JU.2                  phi.CPVO.2 
+                   78102.73                    91671.01 
+                 phi.EASA.2                  phi.EASO.2 
+                  103738.69                   105048.97 
+                  phi.EBA.2                  phi.ECDC.2 
+                   89972.71                   120384.51 
+                 phi.ECHA.2              phi.ECSEL JU.2 
+                  108487.11                    78958.68 
+                  phi.EDA.2                   phi.EEA.2 
+                  105260.89                    69753.40 
+                 phi.EFCA.2                  phi.EFSA.2 
+                  110054.54                    85710.10 
+                 phi.EIGE.2                 phi.EIOPA.2 
+                  107992.87                    88673.93 
+                  phi.EIT.2                   phi.EMA.2 
+                   88711.10                   109865.83 
+               phi.EMCDDA.2                  phi.EMSA.2 
+                   76141.74                    95547.88 
+                phi.ENISA.2                   phi.ERA.2 
+                  118750.97                   105675.22 
+                 phi.ESMA.2                   phi.ETF.2 
+                   90041.46                   125556.04 
+              phi.EU-LISA.2               phi.EU-OSHA.2 
+                   97993.06                   115961.29 
+                phi.EUIPO.2                 phi.EUISS.2 
+                   93791.57                   112543.27 
+            phi.EUROFOUND.2              phi.EUROJUST.2 
+                  118940.98                   106063.20 
+              phi.EUROPOL.2                phi.F4E JU.2 
+                  107390.14                    80498.67 
+             phi.FCH 2 JU.2                   phi.FRA.2 
+                   79772.59                   116158.86 
+              phi.Frontex.2                   phi.GSA.2 
+                  112700.14                   115465.55 
+               phi.IMI JU.2                phi.S2R JU.2 
+                   80774.76                   105538.70 
+               phi.SatCen.2              phi.SESAR JU.2 
+                  105836.20                    93148.56 
+                  phi.SRB.2 
+                   80579.71 
