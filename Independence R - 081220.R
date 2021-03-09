@@ -1,34 +1,36 @@
+## Before starting
+
+  # Loading packages
 library(coda)
 library(lattice)
 library(MCMCpack)
-library(cowplot)
-library(bayesplot)
 library(ggplot2)
 library(mcmcse)
 library(polycor)
 library(dplyr)
-library(extrafont)
-library(MCMCvis)
 library(gridExtra)
-library(grid)
 library(readxl)
-library(tidyverse)
+library(ggmcmc)
+library(stringr)
+library(tibble)
 
 
-## Graphical settings
-color_scheme_set("darkgray")
+  # Graphical settings
 par(mar=c(1,1,1,1)) # Margins
 options(scipen=999)
+theme_update(text = element_text(size = 12, face = "bold"))
 
-## Before starting
+  # Set working directory
 setwd("C:/Users/Thijs/surfdrive/Project A - Accountability landscape/Data/QUANTitative datasets/Complete datasets/Documentation unobtrustive/Independence")
 
-## Data
-data <- read_excel("independence - complete - adjusted - 25022021.xlsx", na = "99")
-data <- data %>% mutate_if(is.numeric, as.factor)
+  # Prepare data
+data <- read_excel("independence - data.xlsx")
+data <- data %>% mutate_if(is.numeric, as.ordered)
 data <- data %>%  column_to_rownames(var = "agency")
 
-# Check distribution
+## Descriptives and correlations
+
+  # Check distribution
 counts <- data %>% 
   lapply(table) %>% 
   lapply(as.data.frame)
@@ -36,193 +38,205 @@ counts <- data %>%
 counts %>%
   print()
 
-## Correlation plot
+  # Correlation matrix
 cor <- hetcor(data, use = "pairwise.complete.obs")
-cor$correlations <- format(cor$correlations, digits = 1)
-grid.table(cor$correlations)
+grid.table(round(cor$correlations, 2))
 
+## Note: The variables 'agency.discharge' and 'agency.forum' have strong
+## negative correlations with the other variables and are therefore
+## not included in the chain.
 
+## Running the chain
 
-## Chain 
-post.samp <- MCMCordfactanal(~ ah.term + ah.selection + ah.quorum + ah.dismissal +
-            ah.reappointment + mb.reappointment + ah.independence + ah.requirement +
-            mb.fixed + mb.term + mb.reappointment + mb.independence + mb.requirement +
-              agency.independence + agency.report + agency.program + agency.appeal +
-              agency.forum + agency.composition + agency.discharge,
-                             seed = 1090, factors = 1, data = data,
-                             lambda.constraints = list(ah.independence = list(2,"+"),
-                                                       agency.independence = list(2,"+")),
-                             burnin = 100000, mcmc = 1000000, thin = 200,
-                             verbose = TRUE,
-                             store.lambda = TRUE, store.scores = TRUE, tune = 1)
+  # Priors
+l0.prior <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                  -0.08,
+                  0.4,
+                  0,
+                  0.1,
+                  0.66,
+                  0.73,
+                  0,
+                  0.73,
+                  0.79,
+                  0,
+                  0.77,
+                  0.08,
+                  0,
+                  0) 
+dim(l0.prior) <- c(14,2) # Adapted from from Hanretty &  Koop (2012).
 
-save.image(file = "independence - 221220.RData")
+  # Chain 
+sample.post <- MCMCordfactanal(~ ah.selection +
+                                    ah.term +
+                                    ah.quorum +  
+                                    ah.dismissal +  
+                                    ah.independence +
+                                    ah.reappointment +
+                                    ah.requirement +     
+                                    mb.fixed +          
+                                    mb.independence +  
+                                    mb.requirement +
+                                    agency.independence + 
+                                    agency.report +      
+                                    agency.program +
+                                    agency.appeal,
+                                  lambda.constraints = 
+                                    list(mb.fixed = list(2,"+")),
+                                  seed = 1090,
+                                  factors = 1,
+                                  data = data,
+                                  burnin = 10000,
+                                  mcmc = 1000000,
+                                  thin = 5,
+                                  verbose = 10000,
+                                  L0 = 1,
+                                  store.lambda = TRUE,
+                                  store.scores = TRUE,
+                                  tune = 4,
+                                  l0.prior = l0.prior) # mcmc: DO NOT CHANGE
+save.image()
 
-## General info
-varnames(post.samp) # Variable names
-nchain(post.samp) # Number of chains
-mcpar(post.samp) # Start iteration, end iteration and thinning interval
+## Preparing for analysis: extracting labels for later
 
-## Subset parameters
-names <- attr(post.samp, which = "dimnames")
-names <- names[[2]]
-names
+  # Dimension names
+dimnames <- attr(sample.post, which = "dimnames")
+names <- dimnames[[2]]
+names 
 
-lambda.1 <- names[c(1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37)] # Lambda 1 (negative item difficulty parameter)
-lambda.2 <- names[c(2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38)] # Lambda 2 (factor loadings)
-gamma <- names[39:40] # Gamma 
-agencies <- names[51:95] # Agencies
+  # Filter
+lambda <-  grep("^Lambda", names, value = TRUE) 
+lambda.1 <- grep("1$", lambda, value = TRUE)  # Lambda 1 (negative item difficulty parameter)
+lambda.2 <- grep("2$", lambda, value = TRUE) # Lambda 2 (factor loadings or the item discrimination parameters)
+gamma <- grep("gamma", names, value = TRUE)  # Gamma 
+phi <-  grep("phi", names, value = TRUE)
 
-## Summary statistics
-summary(post.samp[,1:38])
+  # Create labels
+lambda.1.label <- lambda.1 %>% str_sub(start = 7, end = -3)%>% paste0(" (lambda 1)")
+lambda.2.label <- lambda.2 %>% str_sub(start = 7, end = -3) %>% paste0(" (lambda 2)")
+gamma.label <- gamma  %>% str_sub(start = 8) %>% paste0(" (gamma)")
+agencies.label  <- phi %>% str_sub(start = 5, end = -3)
 
-## Thin and burn-in
+  # Create dataframe
+lambda.1.df <- data.frame(
+  Parameter = lambda.1,
+  Label = lambda.1.label)
 
-  # Acceptance rate
-round(attr(post.samp, which = "accept.rates"), 2) # ???
+lambda.2.df <- data.frame(
+  Parameter = lambda.2,
+  Label = lambda.2.label)
 
-  # Auto-correlation
-acf1 <- acfplot(post.samp[,1:38],  thin = 1, ylab = "", xlab = "No thinning", par.settings = simpleTheme(col.line = "blue"),  par.strip.text = list(cex = 1),  aspect = 0.2, layout = c(5, 8))
-acf5 <- acfplot(post.samp[,1:38],  thin = 5, ylab = "", xlab = "thin = 5", par.settings = simpleTheme(col.line = "red"), par.strip.text = list(cex = 1), aspect = 0.2, layout = c(5, 8))
-acf15 <- acfplot(post.samp[,1:38], thin = 15, ylab = "", xlab = "thin = 15", par.settings = simpleTheme(col.line = "orange"), par.strip.text = list(cex = 1), aspect = 0.2, layout = c(5, 8))
+gamma.df <- data.frame(
+  Parameter = gamma,
+  Label = gamma.label)
 
-acfplot <- plot_grid(acf1, acf5, acf15, nrow = 3)
-acfplot
+agencies.df <- data.frame(
+  Parameter = agencies,
+  Label = agencies.label)
 
-  # Raftery and Lewis
-raftery <- raftery.diag(post.samp)  # I: Values of I much greater than 1 (I > 5) indicate high within-chain correlations and likely convergence failure and reparametrization is advised.
-                                    # Nmin: required numbers of iterations if the samples were independent
-                                    # N: required numbers of iterations for each variable
-                                    # Minimal burn-in
+total.df <- rbind(lambda.1.df, lambda.2.df, gamma.df, agencies.df)
 
-sink("Raftery MCMC 23-12.txt")
-print(raftery)
-sink()
+ # Convert mcmc object to tibble 
+sample.post.converted <- ggs(as.mcmc.list(sample.post), par_labels = total.df)
+sample.post.agencies <- ggs(as.mcmc.list(sample.post), par_labels = agencies.df, family = "^phi")
 
-# Check burnin and thin
-post.check <- mcmc(post.samp, start = 10000, thin = 20)
-mcpar(post.check) # other
+## Key information of the chain
 
-acfplot(post.check, ylab = "", par.settings = simpleTheme(col.line = "brown"), par.strip.text = list(cex = 0.5), aspect = 0.2, layout = c(10, 10))
-plot(post.check, trace = TRUE, density = FALSE, smooth = FALSE)
-plot(post.check, trace = FALSE, density = TRUE, smooth = TRUE)
+  # Summary
+summary <- summary(sample.post)
+scores.df <- summary[["statistics"]] %>%
+  as.data.frame() 
 
-# New run
-post.thin2 <- MCMCordfactanal(~ ah.term + ah.selection + ah.quorum + ah.dismissal +
-                               ah.reappointment + mb.reappointment +
-                                ah.independence + ah.requirement +
-                               mb.fixed + mb.independence + mb.requirement +
-                               agency.independence + agency.report + agency.program + agency.appeal +
-                               agency.forum + agency.discharge,
-                             seed = 1090, factors = 1, data = data,
-                             lambda.constraints = list(ah.independence = list(2,"+"),
-                                                       agency.independence = list(2,"+")),
-                             burnin = 10000, mcmc = 1000000, thin = 20,
-                             verbose = TRUE,
-                             store.lambda = TRUE, store.scores = TRUE, tune = 0.95)
+scores <- scores.df %>%
+  mutate(Agency = row.names(scores.df)) %>%
+  filter(str_detect(Agency, "^phi"))  %>%
+   mutate(Agency = str_remove(Agency, ".2"),
+          Agency = str_remove(Agency, "phi."))
 
-post.thin3 <- MCMCordfactanal(~ ah.term + ah.selection + ah.quorum + ah.dismissal +
-                                ah.reappointment + mb.reappointment + ah.independence + ah.requirement +
-                                mb.fixed + mb.independence + mb.requirement +
-                                agency.independence + agency.report + agency.program + agency.appeal +
-                                agency.forum + agency.discharge,
-                              seed = 1090, factors = 1, data = data,
-                              lambda.constraints = list(ah.independence = list(2,"+"),
-                                                        agency.independence = list(2,"+")),
-                              burnin = 100000, mcmc = 1000000, thin = 200,
-                              verbose = TRUE,
-                              store.lambda = TRUE, store.scores = TRUE, tune = 0.85)
+write.csv(scores, "scores independence.csv", row.names = FALSE)
 
-save.image(file = "independence - 241220.RData")
-
-  # ACF
-acfplot(post.thin, ylab = "", par.settings = simpleTheme(col.line = "brown"), par.strip.text = list(cex = 0.5), aspect = 0.2, layout = c(10, 10))
+# Acceptance
+attr(sample.post, which = "accept.rates")
 
   # Trace
-plot(post.thin, trace = TRUE, density = FALSE, smooth = FALSE)
+plot(sample.post, trace = TRUE, density = FALSE, smooth = FALSE)
 
- # Density
-plot(post.thin, trace = FALSE, density = TRUE, smooth = TRUE)
+  # Density
+plot(sample.post, trace = FALSE, density = TRUE, smooth = TRUE)
+
+  # ACF
+acfplot(sample.post,
+        ylab = "",
+        par.settings = simpleTheme(col.line = "brown"),
+        par.strip.text = list(cex = 0.4),
+        aspect = 0.5,
+        layout = c(11, 7))
+
+autocorr.diag(sample.post)
+
+autocorr.plot(sample.post, lag.max = 10)
+
+  # Running means
+ggs_running(sample.post.converted) +
+  facet_wrap(~ Parameter, ncol = 11, scales = "free") +
+  geom_line(size = 2, colour = "black") + 
+  theme(legend.position = "none")
 
 ## Diagnostics
 
-  # Geweke 
-geweke <- geweke.diag(post.thin) # Values of Z which fall in the extreme tails of N(0, 1) indicate that the chain has not yet converged
+  # Raftery
+raftery <- raftery.diag(sample.post)
+raftery
 
-sink("Geweke MCMC 23-12.txt")
+sink("Raftery  Independence.txt")
+print(raftery)
+sink()
+
+  # Geweke 
+geweke <- geweke.diag(sample.post) 
+geweke[["z"]] %>% as_tibble() %>% filter(value < -1.96 | value > 1.96) # Parameters outside expected range
+
+sink("Geweke  Independence.txt")
 print(geweke)
 sink()
-geweke.plot(post.thin)
 
-    # Raftery
-raftery.thin <- raftery.diag(post.thin)   # I: Values of I much greater than 1 (I > 5) indicate high within-chain correlations and likely convergence failure and reparametrization is advised.
-                                          # Nmin: required numbers of iterations if the samples were independent
-                                          # N: required numbers of iterations for each variable
-                                          # Minimal burn-in
+geweke.plot(sample.post)
 
-sink("Raftery MCMC thin 23-12.txt")
-print(raftery.thin)
+  # Effective size
+single.ess <- effectiveSize(sample.post) # For each variable
+single.ess
+
+sink("ESS  Independence.txt")
+print(single.ess) # The larger the better. ESSs < 100 is really bad and > 200 sufficient. On the other hand chasing ESSs > 10000 may be a waste of computational resources
 sink()
 
-  # Effect size
-single.ess <- effectiveSize(post.thin) # For each variable
-
-sink("ESS MCMC thin 24-12.txt")
-print(single.ess)
-sink()
-
-multi.ess <- multiESS(post.thin)
+multi.ess <- multiESS(sample.post)
 min.ess <- minESS(p = 95, alpha = .05, eps = .05)
 multi.ess - min.ess # Accounting for dependencies
 
-  # Acceptance rate
-attr(post.thin, which = "accept.rates") # ???
-acceptance <- 1 - rejectionRate(post.samp)
-acceptance
-  
   # Heidelberger and Welch's convergence diagnostic
-heidel <- heidel.diag(post.samp)  # Stationarity test
-sink("Heidelberger MCMC thin 24-12.txt")
+heidel <- heidel.diag(sample.post)  # Stationarity test
+sink("Heidelberger Independence.txt.txt")
 print(heidel)
 sink() 
 
-# Latent variable
-post.list <- coda::as.mcmc.list(post.thin) # Create MCMC list
+## Latent variable
 
-MCMCplot(post.list, 
-         params = agencies, 
-         rank = TRUE,
-         xlab = 'Independence',
-         guide_lines = TRUE,
-         xlim = c(-3, 3),
-         sz_labels = 1.5,
-         sz_med = 2,
-         sz_thick = 3,
-         sz_thin = 1,
-         sz_ax = 2,
-         mar = c(1,1,1,1))
+  # Plot
+ggs_caterpillar(sample.post.agencies) +
+  scale_x_continuous(name =  "θ Formal independence",
+                     breaks = seq(-3, 3, 1),  
+                     limits = c(-3.25, 3.25)) +
+  labs(y = "") +
+  theme(axis.title.x  = element_text(size = 20, face = "italic"),
+        panel.background = element_blank(),
+        panel.grid.major = element_line(colour = "grey50", size = 0.1),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_rect(colour = "black",
+                                    fill = NA,
+                                    size = 0.4))
 
-l1.plot <- MCMCsummary(post.list, 
-            params = lambda.1,
-            Rhat = FALSE,
-            n.eff = FALSE,
-            round = 2)
-
-l2.plot <- MCMCsummary(post.list, 
-                       params = lambda.2,
-                       Rhat = FALSE,
-                       n.eff = FALSE,
-                       round = 2)
-
-gamma.plot <- MCMCsummary(post.list, 
-                          params = gamma,
-                          Rhat = FALSE,
-                          n.eff = FALSE,
-                          round = 2)
-
-tt3 <- ttheme_default(core = list(fg_params = list(hjust = 0, x = 0.1)),
-                      rowhead = list(fg_params = list(hjust = 0, x = 0)))
-
-grid.table(l1.plot,  theme = tt3)
-grid.table(l2.plot,  theme = tt3)
-grid.table(gamma.plot,  theme = tt3) 
+## References
+  # Hanretty, C. & Koop, C, (2012). Measuring the formal independence of regulatory agencies,
+  # Journal of European Public Policy, 19:2, 198-216, DOI: 10.1080/13501763.2011.607357
